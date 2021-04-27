@@ -1,0 +1,44 @@
+@import "~bootstrap/scss/bootstrap";
+
+.chatbot-window {
+  width: 15rem;
+  border: 1px solid $dark;
+  margin: 10rem;
+  border-radius: .25rem;
+}
+
+.chatbot-messages {
+  height: 20rem;
+  border-bottom: 1px solid;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.chatbot-message {
+  width: 10rem;
+  white-space: normal;
+  margin: 0.5rem;
+  margin-bottom: 0;
+  display: inline-block;
+  color: $light;
+  border-radius: .25rem;
+}
+
+.chatbot-message:nth-last-child(2) {
+  margin-bottom: 0.5rem;
+}
+
+.chatbot-message-user {
+  align-self: flex-end;
+  background: $primary;
+}
+
+.chatbot-message-bot {
+  align-self: flex-start;
+  background: $secondary;
+}
+
+.chatbot-input {
+  padding: 0.5rem;
+}
