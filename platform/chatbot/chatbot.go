@@ -19,12 +19,12 @@ var projectID = os.Getenv("GOOGLE_CLOUD_PROJECT")
 var client *dialogflow.SessionsClient
 
 type Request struct {
-	Text      string `json:"text"`
+	Text      string `json:"message"`
 	SessionID string `json:"sessionId"`
 }
 
 type Response struct {
-	Text []string `json:"text"`
+	Text []string `json:"messages"`
 }
 
 func init() {
@@ -76,12 +76,6 @@ func ChatBotHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func applyCors(w http.ResponseWriter) {
-	w.Header().Set("Access-Control-Allow-Origin", os.Getenv("ACCESS_ORIGIN"))
-	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
-	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
-}
-
 func detectIntentText(text, sessionID, languageCode string, r *http.Request) (*[]string, error) {
 	sessionPath := fmt.Sprintf("projects/%s/agent/sessions/%s", projectID, sessionID)
 	textInput := dialogflowpb.TextInput{Text: text, LanguageCode: languageCode}
@@ -101,4 +95,10 @@ func detectIntentText(text, sessionID, languageCode string, r *http.Request) (*[
 	}
 
 	return &out, nil
+}
+
+func applyCors(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", os.Getenv("ACCESS_ORIGIN"))
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }

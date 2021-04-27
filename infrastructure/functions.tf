@@ -21,6 +21,7 @@ resource "google_cloudfunctions_function" "chatbot-function" {
   entry_point = "ChatBotHandler"
   environment_variables = {
     "GOOGLE_CLOUD_PROJECT" = var.google_cloud_project_id
+    "ACCESS_ORIGIN" = "http://localhost:3000"
   }
 }
 
