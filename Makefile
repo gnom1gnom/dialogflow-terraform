@@ -49,10 +49,15 @@ install: ## Install all the dependencies we need
 .PHONY: deploy
 deploy: ## Deploy everything
 	@echo "Zipping the Platform files"
-	cd platflorm/chatbot
-	zip -r main.zip ./
-	cd ../../
+	cd ./platform/chatbot && \
+		zip -r main.zip ./
+	@echo "Building the application"
+	cd ./application && \
+	npm run build
 	@echo "Calling Terraform Apply"
-	cd infrastructure
+	cd ./infrastructure && \
 	terraform apply
-	cd ..
+	@echo "Uploading application build files"
+	cd ./application/build && \
+	gsutil cp -r ./ gs://dialogflow-website/
+
