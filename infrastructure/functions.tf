@@ -1,5 +1,5 @@
 resource "google_storage_bucket" "functions-bucket" {
-  name = "chatbot-functions-bucket"
+  name = "arctic-chatbot-functions-bucket"
   location = "EUROPE-WEST2"
 }
 
