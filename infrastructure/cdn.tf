@@ -3,6 +3,7 @@ resource "google_storage_bucket" "website" {
   provider = google
   name     = "dialogflow-website"
   location = "EUROPE-WEST2"
+  force_destroy = true
 
   website {
     main_page_suffix = "index.html"
@@ -23,19 +24,20 @@ resource "google_compute_global_address" "website" {
   name     = "website-lb-ip"
 }
 
-# Get the managed DNS zone
-data "google_dns_managed_zone" "gcp_dialogflow_dev" {
-  provider = google
+# Create the managed DNS zone
+resource "google_dns_managed_zone" "gcp_dialogflow_dev" {
+  provider = google-beta
   name     = "gcp-dialogflow-dev"
+  dns_name = "${var.domain}."
 }
 
 # Add the IP to the DNS
 resource "google_dns_record_set" "website" {
   provider     = google
-  name         = "${data.google_dns_managed_zone.gcp_dialogflow_dev.dns_name}"
+  name         = google_dns_managed_zone.gcp_dialogflow_dev.dns_name
   type         = "A"
   ttl          = 300
-  managed_zone = data.google_dns_managed_zone.gcp_dialogflow_dev.name
+  managed_zone = google_dns_managed_zone.gcp_dialogflow_dev.name
   rrdatas      = [google_compute_global_address.website.address]
 }
 
@@ -62,6 +64,16 @@ resource "google_compute_url_map" "website" {
   provider        = google
   name            = "website-url-map"
   default_service = google_compute_backend_bucket.website.self_link
+  default_url_redirect {
+    https_redirect = true
+    strip_query = false
+  }
+}
+
+#GCP HTTP proxy
+resource "google_compute_target_http_proxy" "website" {
+  name = "https-redirect-proxy"
+  url_map = google_compute_url_map.website.self_link
 }
 
 # GCP target proxy

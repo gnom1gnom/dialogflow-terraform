@@ -1,5 +1,5 @@
 resource "google_dialogflow_agent" "full_agent" {
-  display_name = "dialogflow-example-agnet"
+  display_name = "dialogflow-example-agent"
   default_language_code = "en"
   time_zone = "Europe/London"
   description = "This is the agent that acts like a human"
