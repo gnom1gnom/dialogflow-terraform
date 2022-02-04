@@ -21,7 +21,7 @@ resource "google_cloudfunctions_function" "chatbot-function" {
   entry_point           = "ChatBotHandler"
   environment_variables = {
     "GOOGLE_CLOUD_PROJECT" = var.google_cloud_project_id
-    "ACCESS_ORIGIN"        = "https://dialogflowdemo-340213.com"
+    "ACCESS_ORIGIN"        = var.cors_access_origin
   }
 }
 
@@ -33,3 +33,8 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   role   = "roles/cloudfunctions.invoker"
   member = "allUsers"
 }
+
+output "chatbot-function-url" {
+  value = google_cloudfunctions_function.chatbot-function.https_trigger_url
+}
+
