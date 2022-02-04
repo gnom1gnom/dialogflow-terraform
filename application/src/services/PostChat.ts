@@ -6,7 +6,7 @@ export const PostMessage = async (
 ): Promise<IMessageResponse> => {
   return await axios
     .post(
-      "https://europe-west2-arctic-moon-312018.cloudfunctions.net/chatbot-function",
+      "https://europe-west2-dialogflowdemo-340213.cloudfunctions.net/chatbot-function",
       message
     )
     .then((resp: AxiosResponse<IMessageResponse>) => {

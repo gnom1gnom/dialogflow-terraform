@@ -1,13 +1,13 @@
 # Bucket to store website
 resource "google_storage_bucket" "website" {
-  provider = google
-  name     = "dialogflow-website"
-  location = "EUROPE-WEST2"
+  provider      = google
+  name          = "dialogflow-website-340213"
+  location      = "EUROPE-WEST2"
   force_destroy = true
 
   website {
     main_page_suffix = "index.html"
-    not_found_page  = "index.html"
+    not_found_page   = "index.html"
   }
 }
 
@@ -64,15 +64,11 @@ resource "google_compute_url_map" "website" {
   provider        = google
   name            = "website-url-map"
   default_service = google_compute_backend_bucket.website.self_link
-  default_url_redirect {
-    https_redirect = true
-    strip_query = false
-  }
 }
 
 #GCP HTTP proxy
 resource "google_compute_target_http_proxy" "website" {
-  name = "https-redirect-proxy"
+  name    = "https-redirect-proxy"
   url_map = google_compute_url_map.website.self_link
 }
 

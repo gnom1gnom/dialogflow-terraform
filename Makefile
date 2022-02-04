@@ -59,5 +59,5 @@ deploy: ## Deploy everything
 	terraform apply
 	@echo "Uploading application build files"
 	cd ./application/build && \
-	gsutil cp -r ./ gs://dialogflow-website/
+	gsutil cp -r ./ gs://dialogflow-website-340213/
 
